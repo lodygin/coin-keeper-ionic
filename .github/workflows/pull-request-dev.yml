@@ -14,20 +14,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
       - name: Get node version
         id: node
         run: |
-          echo "::set-output name=version::$(node -v)"
+          echo "version=$(node -v)" >> $GITHUB_OUTPUT
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
 
       - name: Get node_modules cache
         uses: actions/cache@v3
-        id: node_modules
+        id: cache-node-modules
         with:
-          path: ~/.npm
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install packages
-        run: npm ci
+        run: npm ci --prefer-offline
 
       - name: Run linter
         run: npm run lint
@@ -40,20 +50,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: latest
+
       - name: Get node version
         id: node
         run: |
-          echo "::set-output name=version::$(node -v)"
+          echo "version=$(node -v)" >> $GITHUB_OUTPUT
+
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
 
       - name: Get node_modules cache
         uses: actions/cache@v3
-        id: node_modules
+        id: cache-node-modules
         with:
-          path: ~/.npm
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install packages
-        run: npm ci
+        run: npm ci --prefer-offline
 
       - name: Run tests
         run: npm run test:ci
