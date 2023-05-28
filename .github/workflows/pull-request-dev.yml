@@ -15,6 +15,7 @@ jobs:
         uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
           node-version: current
 
@@ -23,7 +24,7 @@ jobs:
         id: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.setup-node.outputs.version }}
 
       - name: Install packages
         run: npm ci
@@ -41,6 +42,7 @@ jobs:
         uses: actions/checkout@v3
 
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
           node-version: current
 
@@ -49,7 +51,7 @@ jobs:
         id: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.setup-node.outputs.version }}
 
       - name: Install packages
         run: npm ci
