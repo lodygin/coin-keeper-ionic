@@ -22,7 +22,7 @@ jobs:
       - name: Get node version
         id: node
         run: |
-          echo "{version}={$(node -v)}" >> $GITHUB_OUTPUT
+          echo "version=$(node -v)" >> $GITHUB_OUTPUT
 
       - name: Get node_modules cache
         uses: actions/cache@v3
@@ -54,7 +54,7 @@ jobs:
       - name: Get node version
         id: node
         run: |
-          echo "{version}={$(node -v)}" >> $GITHUB_OUTPUT
+          echo "version=$(node -v)" >> $GITHUB_OUTPUT
 
       - name: Get node_modules cache
         uses: actions/cache@v3
