@@ -37,8 +37,7 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install packages
-        run: npm ci
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline
 
       - name: Run linter
         run: npm run lint
@@ -74,8 +73,7 @@ jobs:
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install packages
-        run: npm ci
-        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: npm ci --prefer-offline
 
       - name: Run tests
         run: npm run test:ci
