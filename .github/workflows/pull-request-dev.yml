@@ -14,17 +14,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        id: setup-node
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
           node-version: current
+
+      - name: Get node version
+        id: node
+        run: |
+          echo "{version}={$(node -v)}" >> $GITHUB_OUTPUT
 
       - name: Get node_modules cache
         uses: actions/cache@v3
         id: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.setup-node.outputs.version }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install packages
         run: npm ci
@@ -41,17 +46,22 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        id: setup-node
+      - name: Setup node
+        uses: actions/setup-node@v3
         with:
           node-version: current
+
+      - name: Get node version
+        id: node
+        run: |
+          echo "{version}={$(node -v)}" >> $GITHUB_OUTPUT
 
       - name: Get node_modules cache
         uses: actions/cache@v3
         id: cache-node-modules
         with:
           path: ~/.npm
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.setup-node.outputs.version }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install packages
         run: npm ci
