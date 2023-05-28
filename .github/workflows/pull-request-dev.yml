@@ -24,11 +24,16 @@ jobs:
         run: |
           echo "version=$(node -v)" >> $GITHUB_OUTPUT
 
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
       - name: Get node_modules cache
         uses: actions/cache@v3
         id: cache-node-modules
         with:
-          path: node_modules
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install packages
@@ -56,11 +61,16 @@ jobs:
         run: |
           echo "version=$(node -v)" >> $GITHUB_OUTPUT
 
+      - name: Get npm cache directory
+        id: npm-cache-dir
+        shell: bash
+        run: echo "dir=$(npm config get cache)" >> ${GITHUB_OUTPUT}
+
       - name: Get node_modules cache
         uses: actions/cache@v3
         id: cache-node-modules
         with:
-          path: node_modules
+          path: ${{ steps.npm-cache-dir.outputs.dir }}
           key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}-${{ steps.node.outputs.version }}
 
       - name: Install packages
